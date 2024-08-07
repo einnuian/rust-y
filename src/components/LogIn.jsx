@@ -2,16 +2,15 @@ import React, { useEffect, useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { jwtDecode } from 'jwt-decode';
 
-const LogIn2 = ({ vis, setName }) => {
-  const [user, setUser] = useState({});
+const Login = ({ vis, setName, createUser }) => {
   const [username, setUsername] = useState('');
 
   function handleCallbackResponse(response) {
     console.log("Encoded JWT ID token: " + response.credential);
     var userObject = jwtDecode(response.credential);
     console.log(userObject);
-    setUser(userObject)
-    setName(userObject.name);
+    createUser(userObject)
+    setName(userObject.given_name);
   }
 
   useEffect(() => {
@@ -55,4 +54,4 @@ const LogIn2 = ({ vis, setName }) => {
   );
 };
 
-export default LogIn2;
+export default Login;

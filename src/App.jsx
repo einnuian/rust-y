@@ -1,11 +1,12 @@
 import React, { useState, useEffect, useRef } from 'react';
-import LogIn2 from './components/LogIn2';
+import LogIn from './components/LogIn';
 
 const API_BASE_URL = "https://chat-rusty.shuttleapp.rs";
 const AI_API_URL = `${API_BASE_URL}/suggest`;
 
 function App() {
   // create state variables using the useState hook
+  const [user, setUser] = useState(null);
   const [messages, setMessages] = useState([]); // messages: an array to store chat messages
   const [username, setUsername] = useState('');
   const [message, setMessage] = useState(''); // message: the current message being typed
@@ -95,14 +96,18 @@ function App() {
       });
     }
   }
+
+  const handleUser = (newUser) => {
+    setUser(newUser);
+  };
   
   function handleLogin(name) {
     setUsername(name);
     setShowNamePrompt(false);
   }
 
-  function handleSignOut(event) {
-    setUsername({});
+  function handleLogOut(event) {
+    setUser(null);
     setShowNamePrompt(true);
   }
 
@@ -145,26 +150,31 @@ function App() {
 
 return (
   <div className="flex flex-col h-screen bg-sky-10">
-     <LogIn2 
-        vis={showNamePrompt}
-        name={username}
-        setName={handleLogin}
-      />
-    <div className="flex-grow overflow-auto p-4 text-right">
-    <button className="px-4 py-2 bg-blue-500 text-white rounded" onClick={ (e) => handleSignOut(e)}>Sign Out</button>
+    {user ? (
+      <>
+    <div className="p-4 bg-stone-200">
+      <div className = "text-right">
+      <button className="px-4 py-2 bg-blue-500 text-white rounded" onClick={ (e) => handleLogOut(e)}>Sign Out</button>
+      </div>
     </div>
+
+
     <div className="flex-grow overflow-auto p-4">
       {messages.map((msg, index) => (
-        <div key={index} className="mb-2">
-          <span className="font-bold" style={{ color: hashColor(msg.username) }}>
-            {msg.username}:
+        <div key={index} className={`mb-2 ${msg.username === username ? 'text-right' : ''}`}>
+          <span className="font-bold text-sm">
+            {msg.username}
           </span>
           {' '}
-          <span>{msg.message}</span>
+          <div>
+            <span className={`flex-grow p-2 rounded-xl ${msg.username == username ? 'bg-blue-500 text-white' : 'bg-stone-200'}`}>{msg.message}</span>
+          </div>
         </div>
       ))}
       <div ref={messagesEndRef} />
     </div>
+
+
     <form onSubmit={handleNewMessage} className="p-4 bg-stone-200">
       <div className="flex space-x-2">
         <input
@@ -180,8 +190,17 @@ return (
       </div>
     </form>
     <div className={`h-2 ${connected ? 'bg-green-500' : 'bg-red-500'}`}></div>
-  </div>
-);
+  </>
+) : (
+  <LogIn 
+        vis={showNamePrompt}
+        name={username}
+        setName={handleLogin}
+        createUser={handleUser}
+      />
+    )}
+  </div>  
+  );
 }
 
 export default App;
