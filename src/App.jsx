@@ -7,7 +7,6 @@ const AI_API_URL = `${API_BASE_URL}/suggest`;
 function App() {
   // create state variables using the useState hook
   const [messages, setMessages] = useState([]); // messages: an array to store chat messages
-  // const [username, setUsername] = useState('guest');
   const [username, setUsername] = useState('');
   const [message, setMessage] = useState(''); // message: the current message being typed
   const [connected, setConnected] = useState(false); // connected: a boolean indicating if the app is connected to the server
