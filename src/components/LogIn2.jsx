@@ -43,15 +43,9 @@ const LogIn2 = ({ vis, setName }) => {
             exit={{y:-500}}
           >
             <div className='flex gap-4 flex-col items-center'>
-              <p className='text-lg lg:text-2xl'>Log in to RustY</p>
+              <p className='text-lg lg:text-2xl'>Welcome to RustY!</p>
               <div className="App">
                 <div id="signInDiv"></div>
-                { user &&
-                  <div>
-                    <img src={user.picture}></img>
-                    <h3>{user.name}</h3>
-                  </div>
-                }
               </div>
             </div>
           </motion.div>

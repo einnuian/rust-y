@@ -102,6 +102,11 @@ function App() {
     setShowNamePrompt(false);
   }
 
+  function handleSignOut(event) {
+    setUsername({});
+    setShowNamePrompt(true);
+  }
+
   // WIP...
   const handleSuggestMessage = async () => {
     const lastMessage = messages.filter(msg => msg.username !== username).slice(-1)[0];
@@ -146,6 +151,9 @@ return (
         name={username}
         setName={handleLogin}
       />
+    <div className="flex-grow overflow-auto p-4 text-right">
+    <button className="px-4 py-2 bg-blue-500 text-white rounded" onClick={ (e) => handleSignOut(e)}>Sign Out</button>
+    </div>
     <div className="flex-grow overflow-auto p-4">
       {messages.map((msg, index) => (
         <div key={index} className="mb-2">
